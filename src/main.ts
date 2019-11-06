@@ -1,29 +1,29 @@
 import $ from 'jquery';
 import { initialize, chatIsFromCurrentChannel, log } from './utils';
-import * as store from "./store";
-import * as chatProccessor from "./chat-processor";
+import * as store from './store';
+import * as chatProccessor from './chat-processor';
 
 $(() => {
     start();
 });
 
 async function start() {
-    
-    log("Starting MixrElixr Emotes for Embedded Chat");
+
+    log('Starting MixrElixr Emotes for Embedded Chat');
 
     const url = new URL(window.location.href);
-    const embeddedChatRegex = new RegExp("\\/embed\\/chat\\/(\\w+).*", "gi");
+    const embeddedChatRegex = new RegExp('\\/embed\\/chat\\/(\\w+).*', 'gi');
     const embeddedPathCheck = embeddedChatRegex.exec(url.pathname);
 
-    if(url.host.toLowerCase() !== "mixer.com"
+    if (url.host.toLowerCase() !== 'mixer.com'
         || embeddedPathCheck == null
         || embeddedPathCheck.length < 2) {
         // We arent on an embedded chat page, stop here
-        log("We are not on an embedded chat page, stopping!");
+        log('We are not on an embedded chat page, stopping!');
         return;
     }
 
-    log("We are in an embedded chat page!");
+    log('We are in an embedded chat page!');
 
     const channelNameOrId = embeddedPathCheck[1];
 
@@ -31,7 +31,7 @@ async function start() {
 
     chatProccessor.addEmoteCss();
 
-    initialize("div[class*='message_']:not([class*='pending_'])", function() {
+    initialize('div[class*="message_"]:not([class*="pending_"])', function() {
 
         const messageContainer = $(this);
 
@@ -45,7 +45,7 @@ async function start() {
 
         const chatFromCurrentChannel = chatIsFromCurrentChannel();
 
-        if(chatFromCurrentChannel) {
+        if (chatFromCurrentChannel) {
             chatProccessor.processMessage(messageContainer);
         }
 

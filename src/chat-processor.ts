@@ -1,8 +1,8 @@
-import $ from "jquery";
-import { stateStore } from "./store";
-import { escapeHTML, escapeRegExp, log } from "./utils";
-import { IElixrEmote } from "./interfaces";
-import { MaxSize } from  "./enums";
+import $ from 'jquery';
+import { stateStore } from './store';
+import { escapeHTML, escapeRegExp, log } from './utils';
+import { IElixrEmote } from './interfaces';
+import { MaxSize } from  './enums';
 
 export function addEmoteCss() {
     $('#elixr-emote-styles').remove();
@@ -14,21 +14,21 @@ export function addEmoteCss() {
                 vertical-align: bottom;
                 margin-left: 2px;
             }
-            
+
             .elixr-emote img {
                 vertical-align: bottom;
             }
-            
+
             .elixr-emote.fifty img {
                 max-width:50px;
                 max-height:50px;
             }
-            
+
             .elixr-emote.thirty img {
                 max-width:30px;
                 max-height:30px;
             }
-            
+
             .elixr-emote.twentyfour img {
                 max-width:24px;
                 max-height:24px;
@@ -112,14 +112,14 @@ export function processMessage(messageContainer: JQuery<any>) {
 
                 const urlTemplate = isGlobal ? stateStore.globalEmoteUrlTemplate : stateStore.channelEmoteUrlTemplate;
 
-                const emoteUrl = urlTemplate.replace("{{emoteId}}", escapeHTML(emote.id));
+                const emoteUrl = urlTemplate.replace('{{emoteId}}', escapeHTML(emote.id));
 
                 let sizeClass = mapEmoteSizeToClass(emote.maxSize);
 
                 let imgTag = `
-                    <span 
-                        class="elixr-emote ${sizeClass}" 
-                        title="Mixr Elixr: Custom emote '${escapeHTML(emote.code)}'" 
+                    <span
+                        class="elixr-emote ${sizeClass}"
+                        title="Mixr Elixr: Custom emote '${escapeHTML(emote.code)}'"
                         style="display: inline-block;">
                             <img src="${emoteUrl}">
                     </span>`;
@@ -137,11 +137,11 @@ export function processMessage(messageContainer: JQuery<any>) {
                 .find('.elixr-emote')
                 .children('img')
                 .on('load', function() {
-                    const username = messageContainer.find("[class*='Username']");
+                    const username = messageContainer.find('[class*="Username"]');
                     if (username != null && username.length > 0) {
                         const usernameTop = username.position().top;
 
-                        const avatar = messageContainer.find("[class*='ChatAvatar']");
+                        const avatar = messageContainer.find('[class*="ChatAvatar"]');
                         if (usernameTop > 6 && avatar != null && avatar.length > 0) {
                             avatar.css('top', usernameTop - 3 + 'px');
                         }

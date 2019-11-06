@@ -5,9 +5,9 @@ import { MaxSize } from './enums';
  */
 export interface IMixerChannel {
     /** The channels ID */
-    id: number,
+    id: number;
     /** The channels name */
-    token: string
+    token: string;
 }
 
 /**
@@ -45,7 +45,7 @@ export interface IGetEmotesResponse {
  */
 export interface IElixrStore {
     /** Mixer channel data */
-    channel: IMixerChannel,
+    channel: IMixerChannel;
     /** URL template for channel emotes */
     channelEmotes: IElixrEmote[];
     /** Array of global emotes */
