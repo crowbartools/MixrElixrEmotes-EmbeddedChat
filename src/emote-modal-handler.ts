@@ -6,9 +6,7 @@ import * as store from './store';
 import { IElixrEmote } from './interfaces';
 
 export function handleEmoteModal() {
-    console.log("SETTING UP MODAL");
     initialize("[class*='modal_']", function() {
-        console.log("MODAL OPENNED");
         let modal = $(this);
 
         let showChannelEmotes = store.stateStore.channelEmotes != null && store.stateStore.channelEmotes.length > 0;
@@ -16,7 +14,7 @@ export function handleEmoteModal() {
 
         waitForModalContainer(modal)
             .then(emotesContainer => {
-                console.log("FOUND EMOTE CONTAINER");
+
                 let classes = emotesContainer.attr('class').split(/\s+/);
 
                 let isListModal = classes.some(c => {
