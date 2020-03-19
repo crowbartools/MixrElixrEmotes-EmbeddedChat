@@ -34,6 +34,57 @@ export function addEmoteCss() {
                 max-height:24px;
             }
 
+            .elixr-emote-tabs {
+                line-height: 50px;
+                width: 100%;
+                display: flex;
+                background: #222d3c;
+                border-bottom: 1px solid #3E4A5B;
+            }
+
+            .elixr-emote-tabs .elixr-emote-tab {
+                padding: 10px 0;
+                width: 50%;
+                display:flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .elixr-emote-tabs .elixr-emote-tab:first-child {
+                border-right: 1px solid #3E4A5B;
+            }
+
+            .elixr-emote-tabs .elixr-emote-tab.elixr-tab-selected {
+                background: #16202e;
+            }
+            
+            .elixr-emote-tabs .elixr-emote-tab img {
+                width: 35px;
+            }
+
+            .elixr-emote-tabs .elixr-emote-tab:not(.elixr-tab-selected):hover {
+                cursor: pointer;
+                opacity: 0.6;
+            }
+            
+            .elixr-emotes-wrapper {
+                overflow-y: auto;
+                padding: 16px;
+            }
+
+            .elixr-emote-preview {
+                cursor: pointer;
+                margin-right: 5px;
+                margin-bottom: 5px;
+            }
+
+            .elixr-emote-section-header {
+                margin: 12px 0 5px 0;
+                font-size: .9em;
+                color: #8f94ae;
+                font-weight: bold;             
+            }
+
         </style>
     `);
 }

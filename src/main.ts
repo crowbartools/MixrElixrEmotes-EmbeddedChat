@@ -1,7 +1,9 @@
 import $ from 'jquery';
-import { initialize, chatIsFromCurrentChannel, log } from './utils';
+import { chatIsFromCurrentChannel, log } from './utils';
+import { initialize } from './element-watcher';
 import * as store from './store';
 import * as chatProccessor from './chat-processor';
+import * as emoteModalHandler from './emote-modal-handler';
 
 $(() => {
     start();
@@ -50,5 +52,7 @@ async function start() {
         }
 
     });
+
+    emoteModalHandler.handleEmoteModal();
 }
 
