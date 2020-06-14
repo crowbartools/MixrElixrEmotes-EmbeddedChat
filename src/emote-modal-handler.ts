@@ -6,7 +6,7 @@ import * as store from './store';
 import { IElixrEmote } from './interfaces';
 
 export function handleEmoteModal() {
-    initialize("[class*='modal_']", function() {
+    initialize('[class*=\'modal_\']', function () {
         let modal = $(this);
 
         let showChannelEmotes = store.stateStore.channelEmotes != null && store.stateStore.channelEmotes.length > 0;
@@ -14,23 +14,15 @@ export function handleEmoteModal() {
 
         waitForModalContainer(modal)
             .then(emotesContainer => {
+                if (showChannelEmotes || showGlobalEmotes) {
+                    emotesContainer.addClass('mixer-emotes-wrapper');
+                    emotesContainer.show();
 
-                let classes = emotesContainer.attr('class').split(/\s+/);
+                    if ($('.elixr-emote-tabs').length > 0) {
+                        $('.elixr-emote-tabs').remove();
+                    }
 
-                let isListModal = classes.some(c => {
-                    return c.startsWith('listModal');
-                });
-
-                if (!isListModal) {
-                    if (showChannelEmotes || showGlobalEmotes) {
-                        emotesContainer.addClass('mixer-emotes-wrapper');
-                        emotesContainer.show();
-
-                        if ($('.elixr-emote-tabs').length > 0) {
-                            $('.elixr-emote-tabs').remove();
-                        }
-
-                        $(`
+                    $(`
                         <div class="elixr-emote-tabs">
                             <div class="elixr-emote-tab mixer elixr-tab-selected" title="Mixer Emotes">
                                 <img src="${mixerLogoDataUrl}">
@@ -41,59 +33,57 @@ export function handleEmoteModal() {
                         </div>
                     `).insertBefore(emotesContainer);
 
-                        $('.elixr-emote-tab').off('click');
-                        $('.elixr-emote-tab').on('click', function() {
-                            let clickedTab = $(this);
-                            if (!clickedTab.hasClass('elixr-tab-selected')) {
-                                clickedTab.addClass('elixr-tab-selected');
-                                let otherTabType = clickedTab.hasClass('elixr') ? 'mixer' : 'elixr';
-                                $(`.${otherTabType}`).removeClass('elixr-tab-selected');
-                                let elixrEmotes = $('.elixr-emotes-wrapper');
-                                let mixerEmotes = $('.mixer-emotes-wrapper');
-                                if (otherTabType === 'mixer') {
-                                    mixerEmotes.hide();
-                                    elixrEmotes.show();
-                                } else {
-                                    elixrEmotes.hide();
-                                    mixerEmotes.show();
-                                }
+                    $('.elixr-emote-tab').off('click');
+                    $('.elixr-emote-tab').on('click', function () {
+                        let clickedTab = $(this);
+                        if (!clickedTab.hasClass('elixr-tab-selected')) {
+                            clickedTab.addClass('elixr-tab-selected');
+                            let otherTabType = clickedTab.hasClass('elixr') ? 'mixer' : 'elixr';
+                            $(`.${otherTabType}`).removeClass('elixr-tab-selected');
+                            let elixrEmotes = $('.elixr-emotes-wrapper');
+                            let mixerEmotes = $('.mixer-emotes-wrapper');
+                            if (otherTabType === 'mixer') {
+                                mixerEmotes.hide();
+                                elixrEmotes.show();
+                            } else {
+                                elixrEmotes.hide();
+                                mixerEmotes.show();
                             }
-                        });
-
-                        if ($('.elixr-emotes-wrapper').length > 0) {
-                            $('.elixr-emotes-wrapper').remove();
                         }
+                    });
 
-                        let elixrEmotesContainer = $(`<div class="elixr-emotes-wrapper"></div>`);
-                        elixrEmotesContainer.hide();
-
-                        if (showGlobalEmotes) {
-                            let header = 'MixrElixr Global Emotes';
-                            let emotesSection = buildEmotesSection(header, store.stateStore.globalEmotes, store.stateStore.globalEmoteUrlTemplate);
-                            elixrEmotesContainer.prepend(emotesSection);
-                        }
-
-                        if (showChannelEmotes) {
-                            let header = `${store.stateStore.channel.token}'s Custom Emotes`;
-                            let emotesSection = buildEmotesSection(header, store.stateStore.channelEmotes, store.stateStore.channelEmoteUrlTemplate);
-                            elixrEmotesContainer.prepend(emotesSection);
-                        }
-
-                        elixrEmotesContainer.insertBefore(emotesContainer);
-
-                        $('.elixr-emote-preview').off('click');
-                        $('.elixr-emote-preview').on('click', function() {
-                            let emoteName = $(this).attr('emote-name');
-                            let chatTextarea = $('#chat-input').children('textarea');
-                            let currentValue = chatTextarea.val();
-                            let newValue = `${currentValue}${currentValue === '' ? ' ' : ''}${emoteName} `;
-                            updateChatTextfield(newValue);
-                        });
+                    if ($('.elixr-emotes-wrapper').length > 0) {
+                        $('.elixr-emotes-wrapper').remove();
                     }
+
+                    let elixrEmotesContainer = $(`<div class="elixr-emotes-wrapper"></div>`);
+                    elixrEmotesContainer.hide();
+
+                    if (showGlobalEmotes) {
+                        let header = 'MixrElixr Global Emotes';
+                        let emotesSection = buildEmotesSection(header, store.stateStore.globalEmotes, store.stateStore.globalEmoteUrlTemplate);
+                        elixrEmotesContainer.prepend(emotesSection);
+                    }
+
+                    if (showChannelEmotes) {
+                        let header = `${store.stateStore.channel.token}'s Custom Emotes`;
+                        let emotesSection = buildEmotesSection(header, store.stateStore.channelEmotes, store.stateStore.channelEmoteUrlTemplate);
+                        elixrEmotesContainer.prepend(emotesSection);
+                    }
+
+                    elixrEmotesContainer.insertBefore(emotesContainer);
+
+                    $('.elixr-emote-preview').off('click');
+                    $('.elixr-emote-preview').on('click', function () {
+                        let emoteName = $(this).attr('emote-name');
+                        let chatTextarea = $('#chat-input').children('textarea');
+                        let currentValue = chatTextarea.val();
+                        let newValue = `${currentValue}${currentValue === '' ? ' ' : ''}${emoteName} `;
+                        updateChatTextfield(newValue);
+                    });
                 }
             })
-            .catch(() => {});
-        
+            .catch(() => { });
     });
 }
 
@@ -117,21 +107,46 @@ function buildEmotesSection(header: string, emotes: IElixrEmote[], emoteUrlTempl
     return customEmotesWrapper;
 }
 
-let waitForModalContainer = function(modal: JQuery<HTMLElement>, counter = 0): Promise<JQuery<HTMLElement>> {
-    return new Promise((resolve, reject) => {
+const lookForEmoteClass = function (modalContainer: JQuery<HTMLElement>, counter = 0): Promise<boolean> {
+    return new Promise(resolve => {
+        if (counter >= 4) {
+            return resolve(false);
+        }
+        counter++;
+
+        let foundEmoteClass = modalContainer.find('[class*=\'emoteGroupHeader\']').length > 0;
+
+        if (!foundEmoteClass) {
+            setTimeout(() => {
+                resolve(lookForEmoteClass(modalContainer, counter));
+            }, 100);
+        } else {
+            resolve(true);
+        }
+    });
+};
+
+const waitForModalContainer = function (modal: JQuery<HTMLElement>, counter = 0): Promise<JQuery<HTMLElement>> {
+    return new Promise(async (resolve, reject) => {
         if (counter >= 20) {
             return reject();
         }
         counter++;
 
-        let emotesContainer = modal.find("[class*='container']") as JQuery<HTMLElement>;
+        let emotesContainer = modal.find('[class*=\'container\']') as JQuery<HTMLElement>;
 
         if (emotesContainer == null || emotesContainer.length < 1) {
             setTimeout(() => {
                 resolve(waitForModalContainer(modal, counter));
             }, 100);
         } else {
-            resolve(emotesContainer);
+            const isEmoteModal = await lookForEmoteClass(emotesContainer);
+
+            if (isEmoteModal) {
+                resolve(emotesContainer);
+            } else {
+                reject();
+            }
         }
     });
 };
